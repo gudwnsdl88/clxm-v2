@@ -87,23 +87,23 @@ class CouponServiceTest {
     public void 쿠폰_사용_성공() throws Exception {
 
         //given
-        Player player = new Player(2L);
+        Player playerWillCharged = new Player(2L);
 
         Coupon coupon = Coupon.builder()
                 .code(DEFAULT_COUPON_CODE)
                 .chargedDena(DEFAULT_DENA)
                 .expiredAt(DEFAULT_EXPIRED_AT)
-                .player(player)
+                .player(playerWillCharged)
                 .build();
 
-        when(playerRepository.findById(DEFAULT_PLAYER_ID)).thenReturn(Optional.of(player));
+        when(playerRepository.findById(DEFAULT_PLAYER_ID)).thenReturn(Optional.of(playerWillCharged));
         when(couponRepository.findById(DEFAULT_COUPON_ID)).thenReturn(Optional.of(coupon));
 
         //when
         couponService.useCoupon(DEFAULT_COUPON_ID, DEFAULT_PLAYER_ID);
 
         //then
-        assertThat(player
+        assertThat(playerWillCharged
                 .getDena()).isEqualTo(DEFAULT_DENA);
 
         assertThat(coupon.isUsed()).isEqualTo(true);
@@ -112,7 +112,7 @@ class CouponServiceTest {
     @Test
     public void 쿠폰_사용_실패_만료() throws Exception {
         //given
-        Player player = new Player(DEFAULT_PLAYER_ID);
+        Player playerWillCharged = new Player(DEFAULT_PLAYER_ID);
         Coupon coupon = Coupon.builder()
                 .code(DEFAULT_COUPON_CODE)
                 .chargedDena(DEFAULT_DENA)
@@ -121,7 +121,7 @@ class CouponServiceTest {
                 .player(new Player(0))
                 .build();
 
-        when(playerRepository.findById(DEFAULT_PLAYER_ID)).thenReturn(Optional.of(player));
+        when(playerRepository.findById(DEFAULT_PLAYER_ID)).thenReturn(Optional.of(playerWillCharged));
         when(couponRepository.findById(DEFAULT_COUPON_ID)).thenReturn(Optional.of(coupon));
 
         //when
@@ -134,7 +134,7 @@ class CouponServiceTest {
     @Test
     public void 쿠폰_사용_실패_이미_사용한_쿠폰() throws Exception {
         //given
-        Player player = new Player(DEFAULT_PLAYER_ID);
+        Player playerWillCharged = new Player(DEFAULT_PLAYER_ID);
         Coupon coupon = Coupon.builder()
                 .code(DEFAULT_COUPON_CODE)
                 .chargedDena(DEFAULT_DENA)
@@ -144,7 +144,7 @@ class CouponServiceTest {
 
         coupon.useCoupon();
 
-        when(playerRepository.findById(DEFAULT_PLAYER_ID)).thenReturn(Optional.of(player));
+        when(playerRepository.findById(DEFAULT_PLAYER_ID)).thenReturn(Optional.of(playerWillCharged));
         when(couponRepository.findById(DEFAULT_COUPON_ID)).thenReturn(Optional.of(coupon));
 
 

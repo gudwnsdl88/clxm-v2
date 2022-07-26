@@ -38,17 +38,17 @@ public class CouponService {
 
     public Coupon useCoupon(Long couponId, Long playerId) {
 
-        Player player = playerRepository.findById(playerId)
+        Player playerWillCharged = playerRepository.findById(playerId)
                 .orElseThrow(() -> new CustomException(ErrorCode.PLAYER_NOT_FOUND));
 
         Coupon coupon = couponRepository.findById(couponId)
                 .orElseThrow(() ->  new CustomException(ErrorCode.COUPON_NOT_FOUND));
 
 
-        validBeforeUseCoupon(player, coupon);
+        validBeforeUseCoupon(playerWillCharged, coupon);
 
         coupon.useCoupon();
-        player.addDena(coupon.getChargedDena());
+        playerWillCharged.addDena(coupon.getChargedDena());
 
         return coupon;
     }

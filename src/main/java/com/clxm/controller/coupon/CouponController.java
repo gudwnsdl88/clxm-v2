@@ -26,9 +26,10 @@ public class CouponController {
     private final CouponRepository couponRepository;
 
     @PostMapping("")
-    public Long CreateCoupon(@Valid @RequestBody CreateCouponDto dto, Principal principal){
+    public Long CreateCoupon(@Valid @RequestBody CreateCouponDto dto, Principal principal) {
 
-        Player player = findPlayer(Long.valueOf(principal.getName()));
+        Player player = playerRepository.findById(Long.valueOf(principal.getName()))
+                .orElseThrow(() -> new CustomException(ErrorCode.PLAYER_NOT_FOUND));
         Coupon coupon = dto.toEntity(player);
 
         Coupon savedCoupon = couponService.createCoupon(coupon);
@@ -37,7 +38,7 @@ public class CouponController {
     }
 
     @PutMapping("/{couponId}/used")
-    public Long useCoupon(@PathVariable Long couponId, Principal principal){
+    public Long useCoupon(@PathVariable Long couponId, Principal principal) {
 
         long playerId = Long.parseLong(principal.getName());
 
@@ -46,24 +47,6 @@ public class CouponController {
         return usedCoupon.getId();
     }
 
-    private Player findPlayer(Long playerId) {
-        Player player = playerRepository.findById(playerId)
-                .orElse(null);
-        if(player == null){
-            throw new CustomException(ErrorCode.PLAYER_NOT_FOUND);
-        }
-        return player;
-    }
-
-    private Coupon findCoupon(Long couponId) {
-        Coupon coupon = couponRepository.findById(couponId)
-                .orElse(null);
-
-        if(coupon == null){
-            throw new CustomException(ErrorCode.COUPON_NOT_FOUND);
-        }
-        return coupon;
-    }
 
 
 }
