@@ -1,0 +1,40 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    org.hibernate.sql: debug
+
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/clxm-spring
+    username: sa
+    password: 1234
+    driver-class-name: org.h2.Driver
+
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        default_batch_fetch_size: 100
+        dialect:
+    open-in-view: false
+
+  redis:
+    host: localhost
+    port: 6379
+
+
+
+
+jwt:
+  secret: "thisIjJWTASIZRIRECthisIjJWTASIZRIRECthisIjJWTASIZRIRECthisIjJWTASIZRIRECthisIjJWTASIZRIREC"
+  expired_time:
+    access: 600000000
+    refresh: 60000000
+
+
