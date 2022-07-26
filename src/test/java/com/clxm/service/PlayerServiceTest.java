@@ -2,8 +2,8 @@ package com.clxm.service;
 
 import com.clxm.domain.ChannelInfo;
 import com.clxm.domain.Player;
+import com.clxm.exception.ErrorCode;
 import com.clxm.repository.PlayerRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -84,15 +84,14 @@ class PlayerServiceTest {
         ChannelInfo channelInfo = initSignUpResult.getChannelInfo();
         Player player = initSignUpResult.getPlayer();
 
-        Player mockPlayer = Player.builder()
-                .build();
+
 
         //when
-        when(playerRepository.findByEmail(player.getEmail())).thenReturn(Optional.ofNullable(mockPlayer));
+        when(playerRepository.findByEmail(player.getEmail())).thenReturn(Optional.of(new Player(2L)));
 
         assertThatThrownBy(() -> {
             playerService.signUpPlayer(player, List.of(channelInfo));
-        });
+        }).hasMessage(ErrorCode.PLAYER_ALREADY_EXIST.getDetail());
     }
 
     @Test
@@ -104,7 +103,7 @@ class PlayerServiceTest {
         //when
         assertThatThrownBy(() -> {
             playerService.signUpPlayer(player, new ArrayList<>());
-        });
+        }).hasMessageContaining("ChannelInfo");
     }
 
 

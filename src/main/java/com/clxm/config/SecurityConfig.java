@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic()
                 .disable()
                 .authorizeRequests()// 요청에 대한 사용권한 체크
-                .antMatchers("/player","/auth/**")
+                .antMatchers("/players","/auth/**")
                 .permitAll()
                 .antMatchers("/**")
                 .authenticated()

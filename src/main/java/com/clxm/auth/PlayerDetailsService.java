@@ -16,7 +16,6 @@ public class PlayerDetailsService implements UserDetailsService {
 
     private final PlayerRepository playerRepository;
 
-
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
 

@@ -1,7 +1,6 @@
 package com.clxm.auth;
 
 import com.clxm.domain.Player;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +13,10 @@ import java.util.Collection;
 public class PlayerDetails implements UserDetails {
 
     private final Player player;
+
+    public Player getPlayer() {
+        return this.player;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -35,7 +38,7 @@ public class PlayerDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return player.getEmail();
+        return String.valueOf(player.getId());
     }
 
     @Override
@@ -46,18 +49,15 @@ public class PlayerDetails implements UserDetails {
     @Override
     public boolean isAccountNonLocked() {
         return true;
-
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
-
     }
 
     @Override
     public boolean isEnabled() {
         return true;
-
     }
 }

@@ -23,6 +23,7 @@ spring:
         default_batch_fetch_size: 100
         dialect:
     open-in-view: false
+    generate-ddl: true
 
   redis:
     host: localhost

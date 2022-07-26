@@ -1,9 +1,6 @@
 package com.clxm.domain;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,7 +16,7 @@ public class Player extends BaseEntity {
     @Id
     @GeneratedValue
     @Column(name = "player_id")
-    private Long id;
+    private long id;
 
     @Column(nullable = false)
     private String name;
@@ -47,17 +44,22 @@ public class Player extends BaseEntity {
     @JoinColumn(name = "recommend_info_id", nullable = false)
     private RecommendInfo recommendInfo;
 
+    public Player(Long id) {
+        this.id = id;
+    }
+
+    public Player(Integer dena) {
+        this.dena = dena;
+    }
+
     @Builder
-    public Player(String name, String email, String password
+    public Player(@NonNull String name, @NonNull String email, @NonNull String password
     ) {
         this.name = name;
         this.email = email;
         this.password = password;
     }
 
-    public Player(Long id) {
-        this.id = id;
-    }
 
     public void changePassword(String newPassword) {
         this.password = newPassword;
@@ -76,11 +78,14 @@ public class Player extends BaseEntity {
                 .build();
     }
 
-    public void addChannelInfo(ChannelInfo channelInfo){
+    public void addChannelInfo(ChannelInfo channelInfo) {
         this.channelInfo.add(channelInfo);
         channelInfo.setPlayer(this);
     }
 
+    public void addDena(int denaAmount) {
+        this.dena += denaAmount;
+    }
 
 
 }

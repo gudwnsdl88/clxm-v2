@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
-@RequestMapping("/player")
+@RequestMapping("/players")
 @RequiredArgsConstructor
 public class PlayerController {
 
