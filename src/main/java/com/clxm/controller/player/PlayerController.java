@@ -4,14 +4,14 @@ import com.clxm.controller.player.dto.signUp.PlayerSignUpDto;
 import com.clxm.domain.ChannelInfo;
 import com.clxm.domain.Player;
 import com.clxm.service.PlayerService;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +22,16 @@ import java.util.stream.Collectors;
 public class PlayerController {
 
     private final PlayerService playerService;
+
+
+    @GetMapping("/coupon")
+    public Result getCouponByPlayerId(Principal principal) {
+//        return new Result<List<GetCouponByPlayerIdDto>>(playerService.getCouponByPlayerId(
+//                Long.valueOf(principal.getName())));
+
+        return new Result(playerService.getCouponByPlayerId(Long.valueOf(principal.getName())));
+    }
+
 
     @PostMapping("")
     public Long signUpPlayer(@Valid @RequestBody PlayerSignUpDto dto) throws Exception {
@@ -39,11 +49,16 @@ public class PlayerController {
                 .collect(Collectors.toList());
 
 
-        Player savedPlayer =  playerService.signUpPlayer(player, channelInfoList);
+        Player savedPlayer = playerService.signUpPlayer(player, channelInfoList);
 
 
         return savedPlayer.getId();
     }
 
 
+    @Data
+    @AllArgsConstructor
+    class Result<T> {
+        private T result;
+    }
 }

@@ -2,18 +2,15 @@ package com.clxm.service;
 
 import com.clxm.domain.Coupon;
 import com.clxm.domain.Player;
-import com.clxm.exception.CustomException;
 import com.clxm.exception.ErrorCode;
-import com.clxm.repository.CouponRepository;
+import com.clxm.repository.coupon.CouponRepository;
 import com.clxm.repository.PlayerRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -155,6 +152,32 @@ class CouponServiceTest {
 
 
     }
+
+    @Test
+    public void 쿠폰_사용_실패_사용자() throws Exception {
+        //given
+        Player playerWillCharged = new Player(DEFAULT_PLAYER_ID);
+        Coupon coupon = Coupon.builder()
+                .code(DEFAULT_COUPON_CODE)
+                .chargedDena(DEFAULT_DENA)
+                .expiredAt(DEFAULT_EXPIRED_AT)
+                .player(playerWillCharged)
+                .build();
+
+        coupon.useCoupon();
+
+        when(playerRepository.findById(DEFAULT_PLAYER_ID)).thenReturn(Optional.of(playerWillCharged));
+        when(couponRepository.findById(DEFAULT_COUPON_ID)).thenReturn(Optional.of(coupon));
+
+
+        //when
+        assertThatThrownBy(() -> {
+            couponService.useCoupon(DEFAULT_COUPON_ID,DEFAULT_PLAYER_ID);
+        }).hasMessage(ErrorCode.COUPON_NOT_VALID.getDetail());
+
+
+    }
+
 
 
 }

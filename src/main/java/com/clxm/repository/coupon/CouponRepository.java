@@ -1,4 +1,4 @@
-package com.clxm.repository;
+package com.clxm.repository.coupon;
 
 import com.clxm.domain.Coupon;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -6,6 +6,8 @@ import com.clxm.domain.Player;
 import com.clxm.exception.CustomException;
 import com.clxm.exception.ErrorCode;
 import com.clxm.repository.PlayerRepository;
+import com.clxm.repository.coupon.CouponRepositoryQuery;
+import com.clxm.repository.coupon.dto.GetCouponByPlayerIdDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,6 +24,11 @@ public class PlayerService {
 
     private final PlayerRepository playerRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final CouponRepositoryQuery couponRepositoryQuery;
+
+    public List<GetCouponByPlayerIdDto> getCouponByPlayerId(Long playerId){
+        return couponRepositoryQuery.getCouponByPlayerId(playerId);
+    }
 
 
     public Player signUpPlayer(Player player, List<ChannelInfo> channelInfoList) throws Exception {

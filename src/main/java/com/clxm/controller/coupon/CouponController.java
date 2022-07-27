@@ -5,7 +5,7 @@ import com.clxm.domain.Coupon;
 import com.clxm.domain.Player;
 import com.clxm.exception.CustomException;
 import com.clxm.exception.ErrorCode;
-import com.clxm.repository.CouponRepository;
+import com.clxm.repository.coupon.CouponRepository;
 import com.clxm.repository.PlayerRepository;
 import com.clxm.service.CouponService;
 import lombok.RequiredArgsConstructor;
