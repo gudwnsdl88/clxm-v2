@@ -35,6 +35,7 @@ class CouponRepositoryQueryTest {
 
     private static final LocalDateTime DEFAULT_EXPIRED_AT = LocalDateTime.of(2022, 5, 27, 0, 0);
     private static final String DEFAULT_COUPON_CODE = "code";
+    private static final int CREATED_COUPON_COUNT = 5;
 
     @BeforeAll
     public void init() {
@@ -66,7 +67,7 @@ class CouponRepositoryQueryTest {
 
         assert player != null;
 
-        for(int i = 0; i <= 4; i++){
+        for(int i = 1; i <= CREATED_COUPON_COUNT; i++){
             Coupon coupon = Coupon.builder()
                     .expiredAt(expiredAt)
                     .chargedDena(1000)
@@ -84,13 +85,13 @@ class CouponRepositoryQueryTest {
         List<GetCouponByPlayerIdDto> result = couponRepositoryQuery.getCouponByPlayerId(
                 player.getId());
 
-        result.forEach(r -> {
-            System.out.println(r.getExpiredAt().toString());
-        });
 
         //then
         assertThat(result.get(0)
                 .getExpiredAt()).isEqualTo(DEFAULT_EXPIRED_AT);
+
+
+        assertThat(result.size()).isEqualTo(CREATED_COUPON_COUNT);
 
 
     }
